@@ -4,6 +4,9 @@
   </v-app>
 </template>
 
-<script lang="ts" setup>
-  //
-</script>
+<style lang="scss">
+//reset
+body {
+  color: green;
+}
+</style>

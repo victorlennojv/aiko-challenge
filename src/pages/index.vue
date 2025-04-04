@@ -1,7 +1,8 @@
+<script lang="ts" setup>
+import WellcomeAiko from '@/components/WellcomeAiko.vue';
+</script>
+
 <template>
-  <HelloWorld />
+  <WellcomeAiko />
 </template>
 
-<script lang="ts" setup>
-  //
-</script>
