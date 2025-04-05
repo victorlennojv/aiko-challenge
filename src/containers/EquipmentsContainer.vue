@@ -1,24 +1,52 @@
 <script lang="ts" setup>
-import { onMounted } from 'vue'
-import { useEquipmentStore } from '@/stores/equipment'
+import { ref, onMounted } from 'vue'
+import { useEquipmentStore } from '@/stores/equipment.store'
 import { storeToRefs } from 'pinia'
+import EquipmentsList from '@/components/Equipments/EquipmentsList.vue'
+
+const EquipmentModal = defineAsyncComponent(() => import('@/components/Equipments/EquipmentModal.vue'))
 
 const equipmentStore = useEquipmentStore()
-const { equipments, loading, error } = storeToRefs(equipmentStore)
+const { 
+  equipments, 
+  // equipmentStates, 
+  // equipmentsModels, 
+  // equipmentsPositionHistory, 
+  // equipmentsStateHistory,
+  loading 
+} = storeToRefs(equipmentStore)
+
+const modalActive = ref(true)
 
 onMounted(async () => {
-  await equipmentStore.fetchEquipments()
+  await equipmentStore.getEquipments()
+  await equipmentStore.getEquipmentModels()
+  await equipmentStore.getEquipmentStates()
+  await equipmentStore.getEquipmentsStateHistory()
+  await equipmentStore.getEquipmentsPositionHistory()
 })
+
 </script>
 
 <template>
+  <BaseCardTitle
+    title="Gestão de equipamentos"
+    icon="mdi-tractor"
+  />
   <v-card
     flat
-    color="primary"
+    class="mt-4"
   >
-    <v-card-title>
-      Gestão de Equipamentos
-    </v-card-title>
+    <BaseLoadingSpinner
+      v-if="loading"
+      size="48px"
+      border-width="6px"
+    />
+    <EquipmentsList
+      v-else
+      :equipments="equipments"
+    />
+    <EquipmentModal v-if="modalActive" />
   </v-card>
 </template>
 

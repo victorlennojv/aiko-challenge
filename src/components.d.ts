@@ -8,7 +8,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./components/Base/AppFooter.vue')['default']
+    BaseCardTitle: typeof import('./components/Base/BaseCardTitle.vue')['default']
+    BaseLoadingSpinner: typeof import('./components/Base/BaseLoadingSpinner.vue')['default']
     DefaultHeader: typeof import('./components/Base/DefaultHeader.vue')['default']
+    EquipmentCard: typeof import('./components/Equipments/EquipmentCard.vue')['default']
+    EquipmentModal: typeof import('./components/Equipments/EquipmentModal.vue')['default']
     EquipmentsList: typeof import('./components/Equipments/EquipmentsList.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     MenuSideBar: typeof import('./components/Base/MenuSideBar.vue')['default']

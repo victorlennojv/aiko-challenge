@@ -1,4 +1,4 @@
-# Vuetify (Default)
+# Vuetify
 
 Pra esse projeto resolvi utilizar o vuetify por ter uma vasta biblioteca de components.
 

@@ -19,6 +19,11 @@ export function useMenu() {
       icon: 'mdi-state-machine',
       redirect: '/equipments',
     },
+    {
+      name: 'Sair',
+      icon: 'mdi-logout',
+      redirect: '',
+    },
 
   ]);
 

@@ -7,7 +7,10 @@ import AppFooter from '@/components/Base/AppFooter.vue'
   <DefaultHeader />
   <MenuSideBar />
   <v-main>
-    <v-container fluid>
+    <v-container
+      max-width="1200px"
+      fluid
+    >
       <router-view />
     </v-container>
   </v-main>
