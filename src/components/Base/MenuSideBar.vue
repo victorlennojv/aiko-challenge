@@ -23,7 +23,7 @@ const isMobile = computed<boolean>(() => xs.value);
     class="menu-sidebar"
     :rail="rail"
     permanent
-    :location="isMobile ? 'top' : 'left'"
+    :location="isMobile ? 'bottom' : 'left'"
     color="#fdfdfd"
     @click="rail = false"
   >

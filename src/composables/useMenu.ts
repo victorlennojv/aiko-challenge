@@ -23,12 +23,6 @@ export function useMenu() {
       icon: 'mdi-map',
       redirect: '/general',
     },
-    {
-      name: 'Sair',
-      icon: 'mdi-logout',
-      redirect: '',
-    },
-
   ]);
 
   return menu;

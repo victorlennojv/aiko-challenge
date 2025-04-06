@@ -64,12 +64,12 @@ const { color } = useEquipmentStateColor(lastState?.value?.equipmentStateId || '
           </v-tab>
         </v-tabs>
 
-        <v-card-text>
+        <v-card-text class="scrollable-container">
           <v-tabs-window v-model="tab">
             <v-tabs-window-item
               value="one"
             >
-              <div class="d-flex flex-column flex-sm-row">
+              <div class="pb-0 mb-5 d-flex flex-column flex-sm-row">
                 <LeafletMap
                   :positions="lastPosition ? lastPosition : { lat: 0, lon: 0 , date: ''}"
                   :state="lastState?.equipmentStateId ? normalizeStateName(lastState.equipmentStateId, props.equipmentStates) : ''"
@@ -128,5 +128,9 @@ const { color } = useEquipmentStateColor(lastState?.value?.equipmentStateId || '
 </template>
 
 <style lang="scss" scoped>
+.scrollable-container {
+  max-height: 720px;
+  overflow-y: scroll;
+}
   
 </style>
