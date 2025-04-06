@@ -25,6 +25,15 @@ Este projeto fornece uma interface para visualizar e gerenciar equipamentos em o
 
 ---
 
+## Container Components
+- Foi abordado o padrão de container components para separar as camadas lógicas das camadas de apresentação.
+
+## Gerenciamento de Estado
+- Utilizado o Pinia como gestor de estado global e também utilizado para fazer meio que fake calls simulando chamadas a apis.
+
+## API de Mapa
+- Utilizei o Leaflet para criação e manipulação dos mapas.
+
 ## 🔧 Funcionalidades
 
 ### 🗺 Visão geral dos equipamentos
