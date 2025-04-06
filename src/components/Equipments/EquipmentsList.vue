@@ -1,48 +1,53 @@
 <script lang="ts" setup>
-interface Equipment {
-  id: string
-  equipmentModelId: string
-  name: string
-}
+import { type IEquipment, type IEquipmentModel, type IEquipmentStateDefinition , type IEquipmentStateHistory } from '@/types'
+import { normalizeModelName } from '@/utils/utils';
 
 interface Props {
-  equipments: Equipment[];
+  equipments: IEquipment[];
+  equipmentsModels: IEquipmentModel[];
+  equipmentStateHistory: IEquipmentStateHistory[];
+  equipmentStates: IEquipmentStateDefinition [];
 }
 
 const props = defineProps<Props>()
+
+const emit = defineEmits<{
+  (e: 'equipmentClick', item: IEquipment): void
+}>()
 
 const headers = [
   { title: 'ID', key: 'id' },
   { title: 'Nome', key: 'name' },
   { title: 'Modelo', key: 'equipmentModelId' },
-  { title: 'Ver posição', align: 'end'}
+  { title: 'Ver detalhes'}
 ]
 
 </script>
 
 <template>
-  <v-container>
+  <v-container class="equipment-list-container">
     <v-data-table
       :headers="headers"
       :items="props.equipments"
       class="text-caption"
       density="compact"
       item-value="name"
-      hide-default-footer
       hover
     >
       <template #item="{ item }">
-        <tr class="text-no-wrap">
+        <tr
+          class="text-elips equipment-list__row"
+          @click="() => emit('equipmentClick', item)"
+        >
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
-          <td>{{ item.equipmentModelId }}</td>
+          <td>{{ normalizeModelName(item.equipmentModelId, equipmentsModels) }}</td>
           <td class="text-end">
             <v-icon
               class="mr-4"
               size="large"
-              @click="() => {}"
             >
-              mdi-map
+              mdi-book-open-blank-variant-outline
             </v-icon>
           </td>
         </tr>
@@ -51,6 +56,10 @@ const headers = [
   </v-container>
 </template>
 
-<style lang="scss" scoped>
-  
+<style lang="scss">
+.equipment-list-container {
+  & .equipment-list__row {
+    cursor: pointer
+  }
+}
 </style>

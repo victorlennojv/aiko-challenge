@@ -4,7 +4,7 @@ export interface IEquipment {
   name: string
 }
 
-interface IEquipmentPosition {
+export interface IEquipmentPosition {
   date: string
   lat: number
   lon: number
@@ -15,7 +15,7 @@ export interface IEquipmentPositionHistory {
   positions: IEquipmentPosition[]
 }
 
-interface IHourlyEarning {
+export interface IHourlyEarning {
   equipmentStateId: string
   value: number
 }
@@ -26,19 +26,19 @@ export interface IEquipmentModel {
   hourlyEarnings: IHourlyEarning[]
 }
 
-export interface IEquipmentState {
+export interface IEquipmentStateDefinition {
   id: string
   name: string
   color: string
 }
 
-interface IEquipmentStateEntry {
+export interface IEquipmentStates {
   date: string
   equipmentStateId: string
 }
 
 export interface IEquipmentStateHistory {
   equipmentId: string
-  states: IEquipmentStateEntry[]
+  states: IEquipmentStates[]
 }
 

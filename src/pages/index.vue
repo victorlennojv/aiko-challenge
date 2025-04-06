@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import WellcomeAiko from '@/components/WellcomeAiko.vue';
+import WellcomeAiko from '@/components/WellcomeAiko.vue'
 </script>
 
 <template>
