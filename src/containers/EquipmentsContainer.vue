@@ -1,35 +1,33 @@
 <script lang="ts" setup>
-import { ref, onMounted, computed } from 'vue'
-import { useEquipmentStore } from '@/stores/equipment.store'
-import { storeToRefs } from 'pinia'
+import { ref, computed, defineAsyncComponent } from 'vue'
+import type { IEquipment, IEquipmentStateHistory, IEquipmentPositionHistory } from '@/types/equipment.types'
+
+import { useEquipmentsLoader } from '@/composables/useEquipmentsLoader'
+
 import EquipmentsList from '@/components/Equipments/EquipmentsList.vue'
-import type { IEquipmentStateHistory, IEquipment, IEquipmentPositionHistory } from '@/types/equipment.types'
 
 const EquipmentModal = defineAsyncComponent(() => import('@/components/Equipments/EquipmentModal.vue'))
 
-const equipmentStore = useEquipmentStore()
-const { 
-  equipments, 
-  equipmentStates, 
-  equipmentsModels, 
-  equipmentsPositionHistory, 
+const {
+  equipments,
+  equipmentStates,
+  equipmentsModels,
+  equipmentsPositionHistory,
   equipmentsStateHistory,
-  loading 
-} = storeToRefs(equipmentStore)
+  loading,
+} = useEquipmentsLoader()
 
 const modalActive = ref(false)
-
 const selectedEquipment = ref<IEquipment | null>(null)
 
 const selectedEquipmentPositionHistory = computed<IEquipmentPositionHistory[]>(() => {
   if (!selectedEquipment.value) return []
-  return equipmentsPositionHistory.value.filter((item) => item.equipmentId === selectedEquipment?.value?.id)
+  return equipmentsPositionHistory.value.filter(item => item.equipmentId === selectedEquipment.value!.id)
 })
 
 const selectedEquipmentStateHistory = computed<IEquipmentStateHistory[]>(() => {
   if (!selectedEquipment.value) return []
-  const history = equipmentsStateHistory.value.filter((item) => item.equipmentId === selectedEquipment?.value?.id)
-  return history
+  return equipmentsStateHistory.value.filter(item => item.equipmentId === selectedEquipment.value!.id)
 })
 
 const openEquipmentModal = (equipment: IEquipment) => {
@@ -41,15 +39,6 @@ const onCloseEquipmentModal = () => {
   selectedEquipment.value = null
   modalActive.value = false
 }
-
-onMounted(async () => {
-  await equipmentStore.getEquipments()
-  await equipmentStore.getEquipmentModels()
-  await equipmentStore.getEquipmentStates()
-  await equipmentStore.getEquipmentsStateHistory()
-  await equipmentStore.getEquipmentsPositionHistory()
-})
-
 </script>
 
 <template>

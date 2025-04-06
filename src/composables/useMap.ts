@@ -43,7 +43,6 @@ export const useMap = () => {
     L.marker([marker.lat, marker.lon], { icon: markerIcon })
       .addTo(map)
       .bindPopup(description)
-      .openTooltip()
   }
 
   const destroyMap = () => {

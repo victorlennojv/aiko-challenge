@@ -24,16 +24,15 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="leaflet-single-map">
+  <div>
     <div
       id="mapContainer"
-      class="mapContainer"
     />
   </div>
 </template>
 
 <style lang="scss">
-  .mapContainer {
+  #mapContainer {
     width: 400px;
     height: 400px;
   }

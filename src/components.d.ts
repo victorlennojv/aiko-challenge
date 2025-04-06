@@ -17,10 +17,12 @@ declare module 'vue' {
     EquipmentsList: typeof import('./components/Equipments/EquipmentsList.vue')['default']
     EquipmentStateTable: typeof import('./components/Equipments/EquipmentStateTable.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    LeafletGeneralMap: typeof import('./components/Map/LeafletGeneralMap.vue')['default']
     LeafletMap: typeof import('./components/Map/LeafletMap.vue')['default']
     MenuSideBar: typeof import('./components/Base/MenuSideBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TestMap: typeof import('./components/Map/TestMap.vue')['default']
     WellcomeAiko: typeof import('./components/WellcomeAiko.vue')['default']
   }
 }

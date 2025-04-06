@@ -13,11 +13,15 @@ export function useMenu() {
       icon: 'mdi-home-outline',
       redirect: '/',
     },
-
     {
       name: 'Equipamentos',
       icon: 'mdi-state-machine',
       redirect: '/equipments',
+    },
+    {
+      name: 'Visão Geral',
+      icon: 'mdi-map',
+      redirect: '/general',
     },
     {
       name: 'Sair',

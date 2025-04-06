@@ -19,7 +19,7 @@ const headers = [
   { title: 'ID', key: 'id' },
   { title: 'Nome', key: 'name' },
   { title: 'Modelo', key: 'equipmentModelId' },
-  { title: 'Ver detalhes'}
+  { title: 'Ver detalhes', key: 'actions', sorting: false },
 ]
 
 </script>
@@ -44,7 +44,7 @@ const headers = [
           <td>{{ normalizeModelName(item.equipmentModelId, equipmentsModels) }}</td>
           <td class="text-end">
             <v-icon
-              class="mr-4"
+              class="ml-4 d-flex"
               size="large"
             >
               mdi-book-open-blank-variant-outline

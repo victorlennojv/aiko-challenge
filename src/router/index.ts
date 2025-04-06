@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '@/layouts/Default.vue';
 import Equipments from '@/pages/Equipments.vue';
+import GeneralVision from '@/pages/GeneralVision.vue';
 
 const routes = [
   {
@@ -17,6 +18,11 @@ const routes = [
         name: 'Equipments',
         component: Equipments,
       },
+      {
+        path: '/general',
+        name: 'GeneralVision',
+        component: GeneralVision,
+      }
     ]
   }
 ];

@@ -42,3 +42,21 @@ export interface IEquipmentStateHistory {
   states: IEquipmentStates[]
 }
 
+export interface IEquipmentSummary {
+  equipmentId: string | null
+  equipmentName: string | null
+  modelName: string | null
+  lastStateName: string | null
+  lastStateColor: string | null
+  lastStateDate: string | null
+  lastPosition: {
+    lat: number
+    lon: number
+  } | null
+  lastPositionDate: string | null
+  recentStates: {
+    name: string | null
+    color: string | null
+    date: string | null
+  }[]
+}

@@ -21,6 +21,8 @@ interface Props {
 <style lang="scss">
 .spinner {
   display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   margin: 20px auto;
 
