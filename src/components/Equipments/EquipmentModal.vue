@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { normalizeIsoDate, normalizeModelName, normalizeStateName } from '@/utils/utils';
-import type { IEquipment, IEquipmentModel, IEquipmentPositionHistory, IEquipmentStateDefinition , IEquipmentStateHistory } from '@/types/equipment.types';
-import { useLastEquipmentState } from '@/composables/useLastEquipmentState'
+import type { IEquipment, IEquipmentModel, IEquipmentPositionHistory, IEquipmentStateDefinition, IEquipmentStateHistory } from '@/types/equipment.types';
+import { useEquipmentHistory } from '@/composables/useEquipmentHistory'
 import { useEquipmentStateColor } from '@/composables/useEquipmentStateColor'
-import { useLastEquipmentPosition } from '@/composables/useLastEquipmentPosition'
 import LeafletMap from '../Map/LeafletMap.vue';
 import EquipmentStateTable from './EquipmentStateTable.vue';
 
@@ -25,10 +24,32 @@ const emit = defineEmits<{
 const dialog = ref(true)
 const tab = ref<string | null>(null)
 
-const { lastState } = useLastEquipmentState(props.equipmentStateHistory)
-const { lastPosition } = useLastEquipmentPosition(props.equipmentPositionHistory)
-const { color } = useEquipmentStateColor(lastState?.value?.equipmentStateId || '', props.equipmentStates)
+const { lastState, lastPosition } = useEquipmentHistory(
+  props.equipmentPositionHistory,
+  props.equipmentStateHistory
+)
 
+const { color } = useEquipmentStateColor(
+  lastState.value?.equipmentStateId || '', 
+  props.equipmentStates
+)
+
+const getModelName = () => {
+  return normalizeModelName(
+    props?.equipment?.equipmentModelId || '', 
+    props?.equipmentsModels
+  )
+}
+
+const getStateName = () => {
+  return lastState.value?.equipmentStateId 
+    ? normalizeStateName(lastState.value.equipmentStateId, props.equipmentStates) 
+    : ''
+}
+
+const getLastStateDate = () => {
+  return lastState.value ? normalizeIsoDate(lastState.value.date) : '-'
+}
 </script>
 
 <template>
@@ -72,7 +93,7 @@ const { color } = useEquipmentStateColor(lastState?.value?.equipmentStateId || '
               <div class="pb-0 mb-5 d-flex flex-column flex-sm-row">
                 <LeafletMap
                   :positions="lastPosition ? lastPosition : { lat: 0, lon: 0 , date: ''}"
-                  :state="lastState?.equipmentStateId ? normalizeStateName(lastState.equipmentStateId, props.equipmentStates) : ''"
+                  :state="getStateName()"
                   :equipment-model-id="props?.equipment?.equipmentModelId || ''"
                 />
                 <div>
@@ -80,13 +101,13 @@ const { color } = useEquipmentStateColor(lastState?.value?.equipmentStateId || '
                     <h4>
                       Modelo
                     </h4>
-                    <p>{{ normalizeModelName(props?.equipment?.equipmentModelId || '', props?.equipmentsModels) }}</p>
+                    <p>{{ getModelName() }}</p>
                   </div>
                   <div class="mx-4 mt-4">
                     <h4>
                       Última atualização
                     </h4>
-                    <p>{{ lastState ? normalizeIsoDate(lastState?.date) : '-' }}</p>
+                    <p>{{ getLastStateDate() }}</p>
                   </div>
                   <div class="mx-4 mt-4">
                     <h4>
@@ -97,7 +118,7 @@ const { color } = useEquipmentStateColor(lastState?.value?.equipmentStateId || '
                   </div>
                   <div class="ma-4">
                     <v-chip :color="color">
-                      {{ lastState?.equipmentStateId ? normalizeStateName(lastState.equipmentStateId, props.equipmentStates) : '' }}
+                      {{ getStateName() }}
                     </v-chip>
                   </div>
                 </div>
@@ -132,5 +153,4 @@ const { color } = useEquipmentStateColor(lastState?.value?.equipmentStateId || '
   max-height: 720px;
   overflow-y: scroll;
 }
-  
 </style>

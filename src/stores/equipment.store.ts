@@ -15,7 +15,6 @@ import {
 
 
 export const useEquipmentStore = defineStore('equipment', () => {
-
   const equipments = ref<IEquipment[]>([])
   const equipmentsPositionHistory = ref<IEquipmentPositionHistory[]>([])
   const equipmentsModels = ref<IEquipmentModel[]>([])
@@ -23,6 +22,19 @@ export const useEquipmentStore = defineStore('equipment', () => {
   const equipmentsStateHistory = ref<IEquipmentStateHistory[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
+
+  async function fetchData(
+    action: () => Promise<void>,
+    errorMessage: string
+  ): Promise<void> {
+    try {
+      error.value = null
+      await action()
+    } catch (err) {
+      error.value = `${errorMessage}: ${err}`
+      console.error(error.value)
+    }
+  }
 
   async function getEquipments() {
     try {
@@ -41,44 +53,39 @@ export const useEquipmentStore = defineStore('equipment', () => {
   }
 
   async function getEquipmentsPositionHistory() {
-    try {
-      error.value = null
-      equipmentsPositionHistory.value = equipmentPositionHistory
-    } catch (err) {
-      error.value = `Failed to fetch equipments position history: ${err}`
-      console.error(error.value)
-    }
+    await fetchData(
+      async () => {
+        equipmentsPositionHistory.value = equipmentPositionHistory
+      },
+      'Failed to fetch equipments position history'
+    )
   }
 
   async function getEquipmentModels() {
-    try {
-      error.value = null
-      equipmentsModels.value = equipmentModel
-    } catch (err) {
-      error.value = `Failed to fetch equipments model: ${err}`
-      console.error(error.value)
-    }
+    await fetchData(
+      async () => {
+        equipmentsModels.value = equipmentModel
+      },
+      'Failed to fetch equipments model'
+    )
   }
 
   async function getEquipmentStates() {
-    try {
-      error.value = null
-
-      equipmentStates.value = equipmentState
-    } catch (err) {
-      error.value = `Failed to fetch equipment states: ${err}`
-      console.error(error.value)
-    }
+    await fetchData(
+      async () => {
+        equipmentStates.value = equipmentState
+      },
+      'Failed to fetch equipment states'
+    )
   }
 
   async function getEquipmentsStateHistory() {
-    try {
-      error.value = null
-      equipmentsStateHistory.value = equipmentStateHistory
-    } catch (err) {
-      error.value = `Failed to fetch equipments state History: ${err}`
-      console.error(error.value)
-    }
+    await fetchData(
+      async () => {
+        equipmentsStateHistory.value = equipmentStateHistory
+      },
+      'Failed to fetch equipments state History'
+    )
   }
 
   return {
@@ -89,6 +96,7 @@ export const useEquipmentStore = defineStore('equipment', () => {
     equipmentsStateHistory,
     loading,
     error,
+
     getEquipments,
     getEquipmentsPositionHistory,
     getEquipmentModels,

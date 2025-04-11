@@ -1,6 +1,6 @@
 import type { IEquipment, IEquipmentModel, IEquipmentPositionHistory, IEquipmentStateDefinition, IEquipmentStateHistory, IEquipmentSummary } from '@/types/equipment.types'
 
-function normalizeIsoDate(isoDate: string): string {
+export function normalizeIsoDate(isoDate: string): string {
   const date = new Date(isoDate)
 
   const day = String(date.getUTCDate()).padStart(2, '0')
@@ -15,22 +15,36 @@ function normalizeIsoDate(isoDate: string): string {
 }
 
 
-function normalizeModelName(modelId: string, equipmentList: IEquipmentModel[]): string {
-  const model = equipmentList.find(item => item.id === modelId)
-  return model ? model.name : '-'
+function findItemById<T>(id: string, list: T[], idField: keyof T, returnField: keyof T): string {
+  const item = list.find(item => item[idField] === id)
+  return item ? String(item[returnField]) : '-'
 }
 
-function normalizeStateName(stateId: string, stateList: IEquipmentStateDefinition[]): string {
-  const state = stateList.find(item => item.id === stateId)
-  return state ? state.name : '-'
+
+export function normalizeModelName(modelId: string, equipmentList: IEquipmentModel[]): string {
+  return findItemById(modelId, equipmentList, 'id', 'name')
 }
 
-function getStateColor(stateId: string, stateList: IEquipmentStateDefinition[]): string {
-  const state = stateList.find(item => item.id === stateId)
-  return state ? state.color : '-'
+
+export function normalizeStateName(stateId: string, stateList: IEquipmentStateDefinition[]): string {
+  return findItemById(stateId, stateList, 'id', 'name')
 }
 
-function getEquipmentSummary(
+
+export function getStateColor(stateId: string, stateList: IEquipmentStateDefinition[]): string {
+  return findItemById(stateId, stateList, 'id', 'color')
+}
+
+function getLastItemByDate<T>(items: T[], dateField: keyof T): T | null {
+  if (!items.length) return null
+
+  return [...items].sort((a, b) =>
+    new Date(String(b[dateField])).getTime() - new Date(String(a[dateField])).getTime()
+  )[0]
+}
+
+
+export function getEquipmentSummary(
   equipments: IEquipment[],
   models: IEquipmentModel[],
   states: IEquipmentStateDefinition[],
@@ -39,11 +53,12 @@ function getEquipmentSummary(
 ): IEquipmentSummary[] {
   return equipments.map(equipment => {
     const model = models.find(m => m.id === equipment.equipmentModelId);
+
     const positionData = positionsHistory.find(p => p.equipmentId === equipment.id);
     const stateData = stateHistory.find(s => s.equipmentId === equipment.id);
 
     const lastPosition = positionData?.positions?.length
-      ? [...positionData.positions].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]
+      ? getLastItemByDate(positionData.positions, 'date')
       : null;
 
     const sortedStates = stateData?.states?.length
@@ -77,12 +92,4 @@ function getEquipmentSummary(
       recentStates
     };
   });
-}
-
-export {
-  normalizeIsoDate,
-  normalizeModelName,
-  normalizeStateName,
-  getStateColor,
-  getEquipmentSummary
 }
